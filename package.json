@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-qiniu-file",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "save files to qiniu",
   "main": "index.js",
   "repository": {
