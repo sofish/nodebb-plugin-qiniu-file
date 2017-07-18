@@ -1,19 +1,30 @@
 {
-    "id": "nodebb-plugin-qiniu-file",
-    "name": "Nodebb Qiniu Images/Files",
-    "description": "save file to qiniu",
-    "url": "https://github.com/sofish/nodebb-plugin-qiniu-file",
-    "library": "./index.js",
-    "staticDirs": {
-        "qiniu": "public"
+  "id": "nodebb-plugin-qiniu-file",
+  "name": "Nodebb Qiniu Images/Files",
+  "description": "save file to qiniu",
+  "url": "https://github.com/sofish/nodebb-plugin-qiniu-file",
+  "library": "./index.js",
+  "staticDirs": {
+    "qiniu": "public"
+  },
+  "hooks": [
+    {
+      "hook": "static:app.load",
+      "method": "init"
     },
-    "hooks": [
-        { "hook": "static:app.load", "method": "init"},
-        { "hook": "filter:admin.header.build", "method": "admin.menu"},
-        { "hook": "filter:uploadImage", "method": "upload"},
-        { "hook": "filter:uploadFile", "method": "upload"}
-
-    ],
-    "templates": "./public/templates",
-    "settingsRoute": "/admin/plugins/qiniu"
+    {
+      "hook": "filter:admin.header.build",
+      "method": "admin.menu"
+    },
+    {
+      "hook": "filter:uploadImage",
+      "method": "upload"
+    },
+    {
+      "hook": "filter:uploadFile",
+      "method": "upload"
+    }
+  ],
+  "templates": "./public/templates",
+  "settingsRoute": "/admin/plugins/qiniu"
 }
