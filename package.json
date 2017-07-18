@@ -1,0 +1,23 @@
+{
+  "name": "nodebb-plugin-qiniu-file",
+  "version": "0.0.1",
+  "description": "save files to qiniu",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sofish/nodebb-plugin-qiniu-file"
+  },
+  "keywords": [
+    "nodebb",
+    "plugin",
+    "qiniu"
+  ],
+  "author": "Sofish Lin <happinesz@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "qiniu": "^7.0.5"
+  },
+  "nbbpm": {
+    "compatibility": "^1.5.0"
+  }
+}
