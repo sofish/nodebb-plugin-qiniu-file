@@ -10,26 +10,24 @@ const qiniu = require('qiniu');
 (function (E) {
 
   E.init = function (params, callback) {
-
     params.router.get('/admin/plugins/qiniu', params.middleware.applyCSRF, params.middleware.admin.buildHeader, renderAdmin);
     params.router.get('/api/admin/plugins/qiniu', params.middleware.applyCSRF, renderAdmin);
     params.router.post('/api/admin/plugins/qiniu/save', params.middleware.applyCSRF, saveSettings);
-
     callback();
   };
 
   E.upload = function (data, callback) {
-
     new Promise(function (r, rj) {
       DB.getObject(DB_SETTING_KEY, function (err, res) {
         if (err) return rj(err);
         r(res);
-      })
+      });
     }).then(function (settings) {
-      if (!settings || !settings.key || !settings.secret || !settings.bucket || !settings.domain) return callback(new Error('invaild key, secret or bucket'));
+      if (!settings || !settings.key || !settings.secret || 
+          !settings.bucket || !settings.domain) return callback(new Error('invaild key, secret, bucket or domain'));
       doUpload(data, settings, callback);
     }).catch(function (err) {
-      callback(new Error(err));
+      callback(err);
     });
 
   };
@@ -73,7 +71,7 @@ const qiniu = require('qiniu');
     };
 
     DB.setObject(DB_SETTING_KEY, data, function (err) {
-      if (err) return next(err)
+      if (err) return next(err);
       res.status(200).json({message: 'Settings saved!'});
     });
   }
@@ -94,13 +92,12 @@ const qiniu = require('qiniu');
       var uploadToken = new qiniu.rs.PutPolicy({scope: settings.bucket}).uploadToken(mac);
       var putExtra = new qiniu.form_up.PutExtra();
       var formUploader = new qiniu.form_up.FormUploader(config);
-
       formUploader.putFile(uploadToken, null, file.path, putExtra, response);
     } else if (type === 'url') {
       var bucketManager = new qiniu.rs.BucketManager(mac, config);
       bucketManager.fetch(file.url, settings.bucket, file.url.slice(file.url.lastIndexOf("/")), response);
     } else {
-      return callback(new Error('unknown-type'));
+      callback(new Error('unknown file type'));
     }
 
     function response(err, body, info) {
@@ -112,10 +109,9 @@ const qiniu = require('qiniu');
           name: body.key
         });
       }
-
+      
       callback(new Error('unknown error occurs while uploading'));
     }
-
   }
 }(module.exports));
 
