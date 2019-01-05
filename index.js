@@ -4,7 +4,7 @@
 'use strict';
 
 const DB_SETTING_KEY = 'nodebb-plugin-qiniu-file';
-const DB = module.parent.require('./database');
+const DB = module.main.require('./database');
 const qiniu = require('qiniu');
 
 (function (E) {
